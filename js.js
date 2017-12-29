@@ -18,7 +18,6 @@ function StartGame(){
     var counter = setInterval(function(){
         --time;
         timeRemaining.innerHTML = time;
-        currentScore.innerHTML = score;
         if (time <= 00){
             clearInterval(counter);
             var gameOver = document.getElementById("gameOver");
@@ -26,6 +25,9 @@ function StartGame(){
             document.getElementById("displayScore").innerHTML += score;
         }
     } , 1000);
+    var scoreCounter = setInterval(function(){
+        currentScore.innerHTML = score;
+    }, 100);
     UpdateGame();
 }
 function UpdateGame(){
@@ -33,8 +35,13 @@ function UpdateGame(){
     var num2 = (Math.floor(Math.random() * 6) + 4);
     var number1 = document.getElementById("num1");
     var number2 = document.getElementById("num2");
+    correctAnswer = document.getElementById("correctAnswer");
+    wrongAnswer = document.getElementById("wrongAnswer");
     number1.innerHTML = num1;
     number2.innerHTML = num2;
+    correctAnswer.style.visibility = "hidden";
+    wrongAnswer.style.visibility = "hidden";
+    
     var choice1 = document.getElementById("choice1");
     var choice2 = document.getElementById("choice2");
     var choice3 = document.getElementById("choice3");
@@ -82,12 +89,24 @@ function checkAnswer(value){
     }
     if (userAnswer == ans){
         score += 10;
+        time += 10;
+        var temp = 5;
+        var tempCounter = setInterval(function(){
+            correctAnswer.style.visibility = "visible";
+            temp--;
+            if (temp <=1){
+                correctAnswer.style.visibility = "hidden";                clearInterval(tempCounter);
+            }
+        }, 100);
+    } else {
+        var temp = 5;
+        var tempCounter = setInterval(function(){
+            wrongAnswer.style.visibility = "visible";
+            temp--;
+            if (temp <=1){
+                wrongAnswer.style.visibility = "hidden";                clearInterval(tempCounter);
+            }
+        }, 100);
     }
     UpdateGame();
 }
-
-
-
-
-
-
